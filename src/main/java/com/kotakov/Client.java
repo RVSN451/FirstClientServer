@@ -5,8 +5,7 @@ import java.io.*;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client
-{
+public class Client {
     static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     public static String consoleReadString() {
@@ -19,8 +18,7 @@ public class Client
         return line;
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
 
 
         try (Socket clientSocket = new Socket("localhost", Main.PORT);
@@ -28,16 +26,21 @@ public class Client
                      PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new
                      InputStreamReader(clientSocket.getInputStream()))) {
-            out.println("CLIENT");
+
+            String resp = null;
 
             while (true) {
-                String resp = in.readLine();
+                resp = in.readLine();
                 System.out.println(resp);
 
                 String choice = consoleReadString();
-                out.println(choice);
-                 if (choice.equalsIgnoreCase("стоп")) {
-                     break;
+                if (choice.equalsIgnoreCase("стоп")) {
+                    out.println(choice);
+                    resp = in.readLine();
+                    System.out.println(resp);
+                    break;
+                } else {
+                    out.println(choice);
                 }
             }
 
@@ -46,4 +49,3 @@ public class Client
         }
     }
 }
-

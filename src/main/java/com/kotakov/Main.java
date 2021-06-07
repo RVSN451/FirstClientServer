@@ -13,52 +13,60 @@ public class Main {
 
     public static void server() {
         try (ServerSocket serverSocket = new ServerSocket(PORT, 2);
-             Socket clientSocket = serverSocket.accept(); // ждем подключения
+             Socket clientSocket = serverSocket.accept();
              PrintWriter serverOut = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader serverIn = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
 
             List<String> child = Arrays.asList("игрушка", "играть", "машинка", "кукла", "Пётр",
                     "дед мороз", "каша", "юла", "поиграй со мной ", "в", "прятки", "мяч", "пора спать", "кушать");
             List<String> adult = Arrays.asList("моя", "искусственная интелекта", "слабая", "глупая", " только учусь",
-                    "мозг", "забыл..", "паника", "Ломоносов", "где я?", "поговори со мной", "я ушёл", "космос");
+                    "мозг", "забыл..", "паника!!! ", "Ломоносов", ", где я?", ", поговори со мной", ". Я ушёл", " - это космос");
 
             System.out.println("New connection accepted");
+
+            serverOut.println("Привет, я очень умный СЕРВЕР. Как теб зовут?");
 
             final String name = serverIn.readLine();
             String clientChoice = null;
 
-            serverOut.println(String.format("Привет %s, твой порт: %d \n" +
-                    "Для прервания сеанса свзи введи 'стоп'.\n" +
-                    "Ты ребенок? (да/нет).\n", name, clientSocket.getPort()));
+            serverOut.println(String.format("Привет %s, твой порт: %d, Для прервания сеанса свзи введи 'стоп'." +
+                    "Ты ребенок? (да/нет).", name, clientSocket.getPort()));
 
-            if (serverIn.readLine().equalsIgnoreCase("нет")){
-                serverOut.println(String.format("\t\tТогда поговорим о разуме!!!  %s, что ты об этом думаешь?\n", name));
-                while (true){
+            if (serverIn.readLine().equalsIgnoreCase("нет")) {
+                serverOut.println(String.format("\t\tТогда поговорим о разуме!!!  %s, что ты об этом думаешь?", name));
+                while (true) {
                     clientChoice = serverIn.readLine();
-                    if (clientChoice.equalsIgnoreCase("стоп")){
+                    if(clientChoice.equalsIgnoreCase("стоп")){
                         serverOut.println(String.format("\t\tВидимо мой блестящий ум тебя утомил.. Пока, %s \n", name));
                         break;
                     }
-                    serverOut.println(String.format("\t\t%s, я вот что думаю: %s, %s, %s. Что на это скажешь? \n", name,
+
+                    serverOut.println(String.format("%s - это отлична мысль!!!\t\tЯ вот что думаю: %s %s %s!!! Что ты на это скажешь, %s?",
+                            clientChoice,
                             adult.get(new Random().nextInt(adult.size())),
                             adult.get(new Random().nextInt(adult.size())),
-                            adult.get(new Random().nextInt(adult.size()))));
+                            adult.get(new Random().nextInt(adult.size())),
+                            name));
+                    serverOut.flush();
                 }
+
             } else {
-                serverOut.println(String.format("\t\tТогда поговорим об играх и игрушках!!!  %s, что ты об этом думаешь?\n", name));
-                while (true){
+                serverOut.println(String.format("\t\tТогда поговорим об играх и игрушках!!!  %s, что ты об этом думаешь?", name));
+                while (true) {
                     clientChoice = serverIn.readLine();
-                    if (clientChoice.equalsIgnoreCase("стоп")){
-                        serverOut.println(String.format("\t\tВидимо я уже взрослый и тебе со мной не интересно.. Пока, %s \n", name));
+                    if (clientChoice.equalsIgnoreCase("стоп")) {
+                        serverOut.println(String.format("\t\tВидимо я уже взрослый и тебе со мной не интересно.. Пока, %s", name));
                         break;
                     }
-                    serverOut.println(String.format("\t\t%s, я вот что думаю: %s, %s, %s. Что на это скажешь? \n", name,
+                    serverOut.println(String.format("%s - это отлична мысль!!!\t\tЯ вот что думаю: %s, %s, %s!!! Что ты на это скажешь, %s?",
+                            clientChoice,
                             child.get(new Random().nextInt(child.size())),
                             child.get(new Random().nextInt(child.size())),
-                            child.get(new Random().nextInt(child.size()))));
+                            child.get(new Random().nextInt(child.size())),
+                            name));
+                    serverOut.flush();
                 }
             }
-
 
 
         } catch (IOException e) {
