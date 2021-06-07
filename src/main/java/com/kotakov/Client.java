@@ -21,7 +21,7 @@ public class Client {
     public static void main(String[] args) {
 
 
-        try (Socket clientSocket = new Socket("localhost", Main.PORT);
+        try (Socket clientSocket = new Socket("netology.homework", Main.PORT);
              PrintWriter out = new
                      PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new

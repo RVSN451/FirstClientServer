@@ -29,7 +29,7 @@ public class Main {
             final String name = serverIn.readLine();
             String clientChoice = null;
 
-            serverOut.println(String.format("Привет %s, твой порт: %d, Для прервания сеанса свзи введи 'стоп'." +
+            serverOut.println(String.format("Привет %s, твой порт: %d, Для прерывания сеанса свзи введи 'стоп'." +
                     "Ты ребенок? (да/нет).", name, clientSocket.getPort()));
 
             if (serverIn.readLine().equalsIgnoreCase("нет")) {
