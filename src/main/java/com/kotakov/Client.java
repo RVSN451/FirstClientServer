@@ -7,6 +7,18 @@ import java.net.Socket;
 
 public class Client
 {
+    static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+    public static String consoleReadString() {
+        String line = "";
+        try {
+            line = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return line;
+    }
+
     public static void main(String[] args)
     {
 
@@ -18,8 +30,17 @@ public class Client
                      InputStreamReader(clientSocket.getInputStream()))) {
             out.println("CLIENT");
 
-            String resp = in.readLine();
-            System.out.println(resp);
+            while (true) {
+                String resp = in.readLine();
+                System.out.println(resp);
+
+                String choice = consoleReadString();
+                out.println(choice);
+                 if (choice.equalsIgnoreCase("стоп")) {
+                     break;
+                }
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
